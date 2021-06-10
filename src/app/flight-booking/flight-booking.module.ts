@@ -5,29 +5,39 @@ import { DefaultFlightService, DummyFlightService, FlightService } from './fligh
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
+import { FlightCardComponent } from './flight-card/flight-card.component';
+import { StatusToggleComponent } from './status-toggle/status-toggle.component';
 
 const DEBUG = false;
 
 @NgModule({
-  imports: [
-    CommonModule, FormsModule, SharedModule
-  ],
-  declarations: [FlightSearchComponent],
-  exports: [FlightSearchComponent],
-  providers: [
-    {
-       provide: FlightService,
-       useFactory: (http: HttpClient) => {
-          if (DEBUG) {
-             return new DummyFlightService();
-          }
-          else {
-             return new DefaultFlightService(http);
-          }
-       },
-       deps: [HttpClient]
-    }
+   imports: [
+      CommonModule, 
+      FormsModule, 
+      SharedModule
+   ],
+   declarations: [
+      FlightSearchComponent,
+      FlightCardComponent,
+      StatusToggleComponent
+   ],
+   exports: [
+      FlightSearchComponent
+   ],
+   providers: [
+      {
+         provide: FlightService,
+         useFactory: (http: HttpClient) => {
+            if (DEBUG) {
+               return new DummyFlightService();
+            }
+            else {
+               return new DefaultFlightService(http);
+            }
+         },
+         deps: [HttpClient]
+      }
 
- ],
+   ],
 })
 export class FlightBookingModule { }

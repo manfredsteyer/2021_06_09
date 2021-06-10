@@ -1,0 +1,11 @@
+<div *ngIf="errors?.required">
+    This field is required!
+</div>
+
+<div *ngIf="errors?.minlength">
+    Please enter at least {{errors.minlength.requiredLength}} characters!
+</div>
+
+<pre>
+    {{errors | json}}
+</pre>

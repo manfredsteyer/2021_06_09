@@ -14,6 +14,13 @@ export class FlightSearchComponent implements OnInit {
   to: string;
   flights: Array<Flight> = [];
   selectedFlight: Flight;
+// 
+  delayFilter = false;
+
+  basket = {
+    "3": true,
+    "5": true
+  };
 
   // private http: HttpClient;
 
@@ -22,6 +29,10 @@ export class FlightSearchComponent implements OnInit {
   // }
 
   constructor(private flightService: FlightService) {
+  
+    // alert(window.innerHeight);
+    // alert(window.innerWidth);
+
   }
 
   ngOnInit(): void {

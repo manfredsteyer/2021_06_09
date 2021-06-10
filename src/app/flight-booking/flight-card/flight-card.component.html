@@ -1,0 +1,35 @@
+<div
+    class="card"
+    [ngStyle]="{'background-color': (selected) ?  'rgb(204, 197, 185)' : 'white' }">
+
+    <div class="header">
+        <h2 class="title">{{item.from}} - {{item.to}}</h2>
+
+        <ng-content select=".header"></ng-content>
+
+
+    </div>
+    <div class="content">
+            <p>Flight-No.: #{{item.id}}</p>
+            <p>Date: {{item.date | date:'dd.MM.yyyy HH:mm'}}</p>
+
+            <p>
+                <button
+                    class="btn btn-default"
+                    *ngIf="!selected"
+                    (click)="select()"
+                >Select</button>
+                <button
+                    class="btn btn-default"
+                    *ngIf="selected"
+                    (click)="deselect()"
+                >Remove</button>
+
+                <app-status-toggle  [(status)]="item.delayed"></app-status-toggle>
+
+                <ng-content select=".footer"></ng-content>
+
+            </p>
+
+    </div>
+</div>
