@@ -1,16 +1,30 @@
 import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-import { FlightService } from './flight.service';
+import { DefaultFlightService, FlightService } from './flight.service';
 
-describe('FlightService', () => {
+fdescribe('FlightService', () => {
   let service: FlightService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(FlightService);
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [DefaultFlightService]
+    });
+    service = TestBed.inject(DefaultFlightService);
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+
+    service.find('Graz', 'Hamburg').subscribe(
+      flights => {
+        expect(flights.length).toBe(1);
+      }
+    );
+
+    const ctrl = TestBed.inject(HttpTestingController);
+    const req = ctrl.expectOne('http://www.angular.at/api/flight?from=Graz&to=Hamburg');
+    req.flush([{id: 7}]);
+
   });
 });

@@ -5,13 +5,26 @@
     </div>
     <div class="content">
 
-        <form #f="ngForm">
+        <form #f="ngForm" roundTrip>
+
+            <div *ngIf="!f?.valid">
+                Fehler!
+                <div>
+                    {{f?.errors | json}}
+                </div>
+            </div>
+
+            <div *ngIf="f?.hasError('roundTrip')">
+                We don't offer round trips!
+            </div>
+
+
 
             <!-- auch: maxlength, min, max, requireTrue, pattern, email -->
 
             <div class="form-group">
                 <label>From:</label>
-                <input name="from" required minlength="3" class="form-control" [(ngModel)]="from">
+                <input name="from" city="Hamburg,Graz,Zürich,Bielefeld" required minlength="3" class="form-control" [(ngModel)]="from" [ngModelOptions]="{updateOn: 'blur'}">
 
                 <app-show-errors [errors]="f?.controls['from']?.errors"></app-show-errors>
 
@@ -32,11 +45,25 @@
             </div>
             <div class="form-group">
                 <label>To:</label>
-                <input name="to" class="form-control" [(ngModel)]="to">
+                <input asyncCity name="to" class="form-control" [(ngModel)]="to" [ngModelOptions]="{updateOn: 'blur'}">
+
+                <div>
+                    Errors: {{ f?.controls['to']?.errors | json}}
+                </div>
+                <div>
+                    Pending: {{ f?.controls['to']?.pending}}
+                </div>
+                <div *ngIf="f?.controls['to']?.pending">
+                    <marquee>Please wait!</marquee>
+                </div>
+                <div>
+                    Valid: {{ f?.controls['to']?.valid}}
+                </div>
+
             </div>
 
             <div class="form-group">
-                <button (click)="search()" [disabled]="!from || !to" class="btn btn-default">Search</button>
+                <button name="btnSearch" (click)="search()" [disabled]="!f?.valid" class="btn btn-default">Search</button>
 
 
             </div>
